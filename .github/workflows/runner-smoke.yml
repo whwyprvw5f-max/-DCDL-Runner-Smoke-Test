@@ -1,0 +1,24 @@
+name: Hosted Runner Smoke Test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runner-smoke:
+    name: Prove hosted runner starts and executes Python
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Confirm runner execution
+        run: |
+          echo "RUNNER_STARTED"
+          echo "Runner OS: $RUNNER_OS"
+          python --version
+          python -c "assert 2 + 2 == 4; print('PYTHON_SMOKE_TEST_PASSED')"
